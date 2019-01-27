@@ -16,5 +16,5 @@ export default function handle(msg) {
     trigger instanceof RegExp ? trigger.test(cmd) : trigger == cmd
   );
 
-  if (command) command.run(args);
+  if (command) command.run(cmd, args);
 }
