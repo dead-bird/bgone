@@ -4,7 +4,7 @@ import { Client } from 'discord.js';
 
 const bot = new Client();
 
-bot.login(process.env.TOKEN);
+bot.login(process.env.TOKEN).catch(e => core.log.error(e));
 
 bot.on('ready', () => core.log.info('ready'));
 
