@@ -1,5 +1,6 @@
 import { Client } from 'discord.js';
 import dotenv from 'dotenv/config';
+import commands from './commands';
 import core from './core';
 
 const bot = new Client();
@@ -16,8 +17,16 @@ bot.on('message', msg => {
     .trim()
     .split(/ +/g);
 
-  const cmd = args.shift().toLowerCase();
+  const cmd = msg.attachments.array().length
+    ? 'image'
+    : args.shift().toLowerCase();
 
-  console.log(args);
-  console.log(cmd);
+  // console.log('args:', args);
+  // console.log('cmd:', cmd);
+
+  let command = commands.find(({ trigger }) =>
+    trigger instanceof RegExp ? trigger.test(cmd) : trigger == cmd
+  );
+
+  if (command) command.run(args);
 });
