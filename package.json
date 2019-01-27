@@ -1,0 +1,28 @@
+{
+  "name": "bgone",
+  "version": "0.0.1",
+  "description": "A Discord bot to remove backgrounds from images",
+  "main": "app/bgone.js",
+  "scripts": {
+    "dev": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dead-bird/bgone.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "image",
+    "background"
+  ],
+  "readmeFilename": "README.md",
+  "license": "MIT License",
+  "devDependencies": {},
+  "dependencies": {
+    "dotenv": "^6.2.0"
+  },
+  "engines": {
+    "node": ">=6"
+  }
+}
