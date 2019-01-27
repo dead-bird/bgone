@@ -1,7 +1,7 @@
 import { Client } from 'discord.js';
 import dotenv from 'dotenv/config';
 import commands from './commands';
-import core from './core';
+import core from './modules/core';
 
 const bot = new Client();
 
