@@ -1,5 +1,4 @@
 import Command from '../modules/Command';
-// import request from 'request';
 
 export default new Command({
   name: 'URL',
