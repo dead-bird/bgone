@@ -1,7 +1,7 @@
-import sharp from '../modules/sharp';
-import request from 'request';
+import Command from '../modules/Command';
+// import request from 'request';
 
-export default {
+export default new Command({
   name: 'URL',
   trigger: /^(.*:\/\/)|(www)/,
   args: [
@@ -10,21 +10,13 @@ export default {
       required: true,
       describe: 'any valid image URL',
     },
-    {
-      name: 'fit',
-      required: false,
-      describe: 'one of the following keywords: cover|contain|fill|inside',
-    },
-    {
-      name: 'ratio',
-      required: false,
-      describe: 'currently unsused',
-    },
   ],
 
   run(url, args) {
-    request({ url, encoding: null }, (err, resp, buffer) =>
-      sharp(buffer, args[0], args[1])
-    );
+    console.log('running URL');
+
+    // request({ url, encoding: null }, (err, resp, buffer) =>
+    //   sharp(buffer, args[0], args[1])
+    // );
   },
-};
+});

@@ -1,7 +1,7 @@
-export default {
+import Command from '../modules/Command';
+
+export default new Command({
   name: 'Avatar',
   trigger: 'avatar',
-  run() {
-    console.log('running avatar');
-  },
-};
+  args: [],
+});

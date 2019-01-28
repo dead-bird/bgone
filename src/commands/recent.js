@@ -1,7 +1,7 @@
-export default {
+import Command from '../modules/Command';
+
+export default new Command({
   name: 'Recent',
   trigger: '',
-  run() {
-    console.log('running Recent');
-  },
-};
+  args: [],
+});

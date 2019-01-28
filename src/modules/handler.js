@@ -17,6 +17,6 @@ export default function handle(msg) {
   );
 
   if (command) {
-    console.log(command.run(cmd, args));
+    command.run(cmd, args);
   }
 }
