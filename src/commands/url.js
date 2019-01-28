@@ -14,8 +14,6 @@ export default new Command({
   run(url, args) {
     console.log('running URL');
 
-    // request({ url, encoding: null }, (err, resp, buffer) =>
-    //   sharp(buffer, args[0], args[1])
-    // );
+    // pass URL to Jimp
   },
 });
