@@ -1,4 +1,5 @@
 import commands from '../commands';
+import core from './core';
 
 export default function handle(msg) {
   if (!msg.content.startsWith('bgone') || msg.author.bot) return;
@@ -16,7 +17,12 @@ export default function handle(msg) {
     trigger instanceof RegExp ? trigger.test(cmd) : trigger == cmd
   );
 
-  if (command) {
-    command.run(cmd, args);
-  }
+  if (!command) return;
+
+  command
+    .run(cmd, args)
+    .then((url, fit, ratio) => {
+      console.log(url);
+    })
+    .catch(e => core.log.error(e));
 }
