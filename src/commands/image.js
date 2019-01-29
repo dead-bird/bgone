@@ -5,5 +5,10 @@ export default new Command({
   trigger: 'image',
   args: [],
 
-  // pass URL to Jimp
+  run: msg =>
+    new Promise(resolve => {
+      let a = msg.attachments;
+
+      if (a.array().length) resolve(a.first().url);
+    }),
 });
