@@ -21,7 +21,7 @@ export default function handle(msg) {
   if (!command) return;
 
   command
-    .run(cmd, args)
+    .run(msg, cmd, args)
     .then((url, fit, ratio) => {
       process(url, fit, ratio).then(data => {
         console.log(data);

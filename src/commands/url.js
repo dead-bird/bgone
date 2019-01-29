@@ -11,5 +11,6 @@ export default new Command({
     },
   ],
 
-  run: (url, args) => new Promise(resolve => resolve(url, args[0], args[1])),
+  run: (msg, cmd, args) =>
+    new Promise(resolve => resolve(url, args[0], args[1])),
 });
