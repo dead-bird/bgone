@@ -6,10 +6,19 @@ export default new Command({
   args: [
     {
       name: '@user',
-      required: true,
+      required: false,
       describe: 'Get avatar from tagged user',
     },
   ],
 
-  // Get avatar from user or tagged user pass URL to Jimp
+  run: msg =>
+    new Promise(resolve => {
+      let mentions = msg.mentions.users;
+
+      if (mentions.array().length) {
+        resolve(mentions.first().avatarURL);
+      }
+
+      resolve(msg.author.avatarURL);
+    }),
 });
