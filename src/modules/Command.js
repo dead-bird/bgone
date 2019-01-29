@@ -18,6 +18,11 @@ export default class Command {
       },
     ];
 
-    this.run = this.run ? this.run : () => console.log(`Running ${this.name}`);
+    this.run = options.run
+      ? options.run
+      : () =>
+          new Promise((resolve, reject) => {
+            reject(`Can't find [run] function for ${this.name}`);
+          });
   }
 }
