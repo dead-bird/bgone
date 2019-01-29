@@ -1,4 +1,5 @@
 import commands from '../commands';
+import process from './process';
 import core from './core';
 
 export default function handle(msg) {
@@ -22,7 +23,9 @@ export default function handle(msg) {
   command
     .run(cmd, args)
     .then((url, fit, ratio) => {
-      console.log(url);
+      process(url, fit, ratio).then(data => {
+        console.log(data);
+      });
     })
     .catch(e => core.log.error(e));
 }
