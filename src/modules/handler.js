@@ -3,7 +3,7 @@ import process from './process';
 import core from './core';
 
 export default function handle(msg) {
-  if (!msg.content.startsWith('bgone') || msg.author.bot) return;
+  if (!msg.content.startsWith('bgone') || msg.author.bot || !msg.guild) return;
 
   const args = msg.content
     .slice(5)
