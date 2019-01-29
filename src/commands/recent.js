@@ -5,5 +5,14 @@ export default new Command({
   trigger: '',
   args: [],
 
-  // Get recent messages from current channel, find one with an attachment, pass URL to Jimp
+  run: msg =>
+    new Promise(resolve => {
+      msg.channel.fetchMessages({ limit: 20 }).then(messages => {
+        resolve(
+          messages
+            .find(m => m.attachments.array().length > 0)
+            .attachments.first().url
+        );
+      });
+    }),
 });
