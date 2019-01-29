@@ -9,11 +9,22 @@ export default class Command {
       {
         name: 'fit',
         required: false,
-        describe: 'one of the following keywords: cover|contain|fill|inside',
+        describe: 'Change how your image is processed. (defaults to contain)',
+        options: [
+          {
+            name: 'contain',
+            describe: 'some parts of the image may be letter boxed',
+          },
+          {
+            name: 'cover',
+            describe: 'some parts of the image may be clipped',
+          },
+        ],
       },
       {
         name: 'ratio',
         required: false,
+        options: [],
         describe: 'currently unsused',
       },
     ];
