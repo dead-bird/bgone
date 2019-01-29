@@ -11,9 +11,5 @@ export default new Command({
     },
   ],
 
-  run(url, args) {
-    console.log('running URL');
-
-    // pass URL to Jimp
-  },
+  run: (url, args) => new Promise(resolve => resolve(url, args[0], args[1])),
 });
