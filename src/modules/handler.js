@@ -20,6 +20,13 @@ export default function handle(msg) {
 
   if (!command) return;
 
+  if (command.name === 'Help') {
+    return command
+      .run()
+      .then(embed => msg.channel.send({ embed }))
+      .catch(e => core.log.error(e));
+  }
+
   command
     .run(msg, cmd, args)
     .then((url, fit, ratio) => {
