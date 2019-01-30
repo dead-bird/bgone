@@ -2,6 +2,7 @@ import Command from '../modules/Command';
 
 export default new Command({
   name: 'Recent',
+  describe: 'Get the most recent image from this channel.',
   trigger: '',
   args: [],
 
