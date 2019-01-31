@@ -27,7 +27,5 @@ export default new Command({
       });
 
       console.log(fields);
-
-      // resolve(url, args[0], args[1])
     }),
 });
