@@ -28,7 +28,7 @@ export default function handle(msg) {
   }
 
   command
-    .run(msg)
+    .run(msg, cmd)
     .then(url => {
       process(url, args[0], args[1]).then(data => {
         console.log(data);
