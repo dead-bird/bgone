@@ -12,10 +12,14 @@ export default new Command({
       msg.channel
         .fetchMessages({ limit: 20 })
         .then(messages => {
-          let message = messages.find(m => m.attachments.array().length > 0);
+          let message = messages.find(
+            m => m.embeds.length > 0 || m.attachments.array().length > 0
+          );
 
           if (message) {
-            resolve(message.attachments.first().url);
+            let attachment = message.embeds[0] || message.attachments.first();
+
+            resolve(attachment.url);
           }
 
           reject(`Couldn't find any recent attachments 😭`);
