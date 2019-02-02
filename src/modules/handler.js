@@ -1,5 +1,6 @@
 import commands from '../commands';
 import process from './process';
+import remove from './remove';
 import core from './core';
 
 export default function handle(msg) {
@@ -31,7 +32,13 @@ export default function handle(msg) {
     .run(msg, cmd)
     .then(url => {
       process(url, args[0], args[1]).then(data => {
-        console.log(data);
+        remove(data)
+          .then()
+          .catch(e => {
+            if (e.type === 'reply') msg.reply(e.msg);
+
+            core.log.error(e.msg);
+          });
       });
     })
     .catch(e => core.log.error(e));
