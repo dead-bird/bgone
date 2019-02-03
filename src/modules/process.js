@@ -1,13 +1,10 @@
 import core from './core';
 import Jimp from 'jimp';
 
-export default function(url, constraint = 'contain', ratio) {
+export default function(url) {
   const file = `./src/data/${new Date().toJSON()}.png`;
-  const fits = ['cover', 'contain'];
   const w = 625;
   const h = 400;
-
-  const fit = fits.find(a => a === constraint) || 'contain';
 
   return new Promise((resolve, reject) => {
     Jimp.read(url)
@@ -16,9 +13,8 @@ export default function(url, constraint = 'contain', ratio) {
           resolve({ url });
         }
 
-        fit === 'contain' ? img.contain(w, h) : img.cover(w, h);
-
         img
+          .contain(w, h)
           .writeAsync(file)
           .then(() => resolve({ file }))
           .catch(e => core.log.error(e));

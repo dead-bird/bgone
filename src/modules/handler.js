@@ -32,7 +32,7 @@ export default function handle(msg) {
   command
     .run(msg, cmd)
     .then(url => {
-      process(url, args[0], args[1]).then(data => api(msg, data));
+      process(url).then(data => api(msg, data));
     })
     .catch(e => core.log.error(e));
 }
