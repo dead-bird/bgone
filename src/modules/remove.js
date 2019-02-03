@@ -6,25 +6,21 @@ import {
 } from 'remove.bg';
 
 export default function(data) {
-  const file = `${new Date().toJSON()}.png`;
+  const outputFile = `./src/data/${new Date().toJSON()}.png`;
   const config = {
     apiKey: process.env.KEY,
     size: 'regular',
-    outputFile: `./src/data/${file}`,
+    outputFile,
   };
 
   return new Promise((resolve, reject) => {
     if (data.file) {
-      console.log({ path: data.file, ...config });
-
       removeBackgroundFromImageFile({ path: data.file, ...config })
-        .then(() => resolve(file))
+        .then(() => resolve(outputFile))
         .catch(e => reject({ type: 'reply', msg: e[0].title }));
     } else {
-      console.log({ url: data.url, ...config });
-
       removeBackgroundFromImageUrl({ url: data.url, ...config })
-        .then(() => resolve(file))
+        .then(() => resolve(outputFile))
         .catch(e => reject({ type: 'reply', msg: e[0].title }));
     }
   });
