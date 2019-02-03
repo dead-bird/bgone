@@ -25,11 +25,11 @@
     "nodemon": "^1.18.9"
   },
   "dependencies": {
-    "axios": "^0.18.0",
     "chalk": "^2.4.2",
     "discord.js": "^11.4.2",
     "dotenv": "^6.2.0",
-    "jimp": "^0.6.0"
+    "jimp": "^0.6.0",
+    "remove.bg": "^1.0.1"
   },
   "engines": {
     "node": ">=6"
