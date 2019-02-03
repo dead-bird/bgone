@@ -32,25 +32,27 @@ export default function handle(msg) {
   command
     .run(msg, cmd)
     .then(url => {
-      process(url, args[0], args[1]).then(data => {
-        let files = [];
-
-        if (data.file) files.push(data.file);
-
-        remove(data)
-          .then(file => {
-            msg
-              .send({ file })
-              .then(() => clean([file, ...files]))
-              .catch(e => core.log.error(e));
-          })
-          .catch(e => {
-            if (e.type === 'reply') msg.reply(e.msg);
-            core.log.error(e.msg);
-          });
-      });
+      process(url, args[0], args[1]).then(data => api(msg, data));
     })
     .catch(e => core.log.error(e));
+}
+
+function api(msg, data) {
+  let files = [];
+
+  if (data.file) files.push(data.file);
+
+  remove(data)
+    .then(file => {
+      msg.channel
+        .send({ file })
+        .then(() => clean([file, ...files]))
+        .catch(e => core.log.error(e));
+    })
+    .catch(e => {
+      if (e.type === 'reply') msg.reply(e.msg);
+      core.log.error(e.msg);
+    });
 }
 
 function clean(files) {
