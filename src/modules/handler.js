@@ -2,6 +2,7 @@ import commands from '../commands';
 import process from './process';
 import remove from './remove';
 import core from './core';
+import fs from 'fs';
 
 export default function handle(msg) {
   if (!msg.content.startsWith('bgone') || msg.author.bot || !msg.guild) return;
@@ -32,14 +33,30 @@ export default function handle(msg) {
     .run(msg, cmd)
     .then(url => {
       process(url, args[0], args[1]).then(data => {
+        let files = [];
+
+        if (data.file) files.push(data.file);
+
         remove(data)
-          .then()
+          .then(file => {
+            msg
+              .send({ file })
+              .then(() => clean([file, ...files]))
+              .catch(e => core.log.error(e));
+          })
           .catch(e => {
             if (e.type === 'reply') msg.reply(e.msg);
-
             core.log.error(e.msg);
           });
       });
     })
     .catch(e => core.log.error(e));
+}
+
+function clean(files) {
+  files.forEach(f => {
+    fs.unlink(f, e => {
+      if (e) core.log.error(e);
+    });
+  });
 }
