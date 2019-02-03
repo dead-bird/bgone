@@ -31,9 +31,7 @@ export default function handle(msg) {
 
   command
     .run(msg, cmd)
-    .then(url => {
-      process(url).then(data => api(msg, data));
-    })
+    .then(url => process(url).then(data => api(msg, data)))
     .catch(e => core.log.error(e));
 }
 
