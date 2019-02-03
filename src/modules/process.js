@@ -17,7 +17,7 @@ export default function(url) {
           .contain(w, h)
           .writeAsync(file)
           .then(() => resolve({ file }))
-          .catch(e => core.log.error(e));
+          .catch(e => core.log.error(`[jimp] ${e}`));
 
         // img.getBase64(Jimp.MIME_PNG, (err, image_file_b64) => {
         //   if (err) reject(err);
@@ -25,6 +25,6 @@ export default function(url) {
         //   resolve({ image_file_b64 });
         // });
       })
-      .catch(e => core.log.error(e));
+      .catch(e => core.log.error(`[jimp] ${e}`));
   });
 }
