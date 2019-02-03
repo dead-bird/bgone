@@ -1,27 +1,31 @@
 import dotenv from 'dotenv/config';
-import axios from 'axios';
 
-const api = 'https://api.remove.bg/v1.0/removebg';
-const config = {
-  headers: { 'X-Api-Key': process.env.KEY },
-};
+import {
+  removeBackgroundFromImageUrl,
+  removeBackgroundFromImageFile,
+} from 'remove.bg';
 
 export default function(data) {
-  console.log(data);
+  const file = `${new Date().toJSON()}.png`;
+  const config = {
+    apiKey: process.env.KEY,
+    size: 'regular',
+    outputFile: `./src/data/${file}`,
+  };
 
   return new Promise((resolve, reject) => {
-    axios
-      .post(api, data, config)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(e => {
-        if (e.response.data.errors.length) {
-          reject({
-            type: 'reply',
-            msg: e.response.data.errors[0].title,
-          });
-        }
-      });
+    if (data.file) {
+      console.log({ path: data.file, ...config });
+
+      removeBackgroundFromImageFile({ path: data.file, ...config })
+        .then(() => resolve(file))
+        .catch(e => reject({ type: 'reply', msg: e[0].title }));
+    } else {
+      console.log({ url: data.url, ...config });
+
+      removeBackgroundFromImageUrl({ url: data.url, ...config })
+        .then(() => resolve(file))
+        .catch(e => reject({ type: 'reply', msg: e[0].title }));
+    }
   });
 }
