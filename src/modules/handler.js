@@ -66,9 +66,16 @@ function end(msg, files) {
 }
 
 function clean(files) {
-  files.forEach(f => {
-    fs.unlink(f, e => {
-      if (e) core.log.error(e);
+  if (files.length) {
+    core.log.warn(`cleaning ${files.length} files`);
+
+    files.forEach(f => {
+      core.log.warn(`cleaning ${f}`);
+      fs.unlink(f, e => {
+        if (e) core.log.error(e);
+      });
     });
-  });
+  } else {
+    core.log.warn(`no files to clean`);
+  }
 }
