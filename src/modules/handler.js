@@ -45,11 +45,15 @@ function api(msg, data) {
       msg.channel
         .send({ file })
         .then(() => clean([file, ...files]))
-        .catch(e => core.log.error(e));
+        .catch(e => {
+          core.log.error(e);
+          clean(files);
+        });
     })
     .catch(e => {
       if (e.type === 'reply') msg.reply(e.msg);
       core.log.error(e.msg);
+      clean(files);
     });
 }
 
