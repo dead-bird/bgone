@@ -22,6 +22,8 @@ export default function handle(msg) {
 
   if (!command) return;
 
+  msg.channel.startTyping();
+
   if (command.name === 'Help') {
     return command
       .run()
@@ -44,17 +46,23 @@ function api(msg, data) {
     .then(file => {
       msg.channel
         .send({ file })
-        .then(() => clean([file, ...files]))
+        .then(() => end(msg, [file, ...files]))
         .catch(e => {
           core.log.error(e);
-          clean(files);
+          end(msg, files);
         });
     })
     .catch(e => {
       if (e.type === 'reply') msg.reply(e.msg);
+
       core.log.error(e.msg);
-      clean(files);
+      end(msg, files);
     });
+}
+
+function end(msg, files) {
+  msg.channel.stopTyping();
+  clean(files);
 }
 
 function clean(files) {
