@@ -2,7 +2,7 @@ import core from './core';
 import Jimp from 'jimp';
 
 export default function(url) {
-  const file = `./src/data/${new Date().toJSON()}.png`;
+  const file = `./src/data/in-${new Date().toJSON()}.png`;
   const w = 625;
   const h = 400;
 

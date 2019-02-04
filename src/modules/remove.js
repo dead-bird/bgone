@@ -6,7 +6,7 @@ import {
 } from 'remove.bg';
 
 export default function(data) {
-  const outputFile = `./src/data/${new Date().toJSON()}.png`;
+  const outputFile = `./src/data/out-${new Date().toJSON()}.png`;
   const config = {
     apiKey: process.env.KEY,
     size: 'regular',
