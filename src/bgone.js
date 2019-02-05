@@ -8,10 +8,7 @@ const bot = new Client();
 bot.login(process.env.TOKEN).catch(e => core.log.error(e));
 
 bot.on('ready', () => {
-  bot.user.setActivity('Image backgrounds removed by remove.bg', {
-    type: 'Playing',
-  });
-
+  bot.user.setActivity(core.attr.plain, { type: 'Playing' });
   core.log.info('ready');
 });
 
