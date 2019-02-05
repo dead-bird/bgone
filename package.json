@@ -4,7 +4,8 @@
   "description": "A Discord bot to remove backgrounds from images",
   "main": "app/bgone.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/bgone.js"
+    "prestart": "mocha test/env.js",
+    "start": "nodemon --exec babel-node src/bgone.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
     "discord.js": "^11.4.2",
     "dotenv": "^6.2.0",
     "jimp": "^0.6.0",
+    "mocha": "^5.2.0",
     "remove.bg": "^1.0.1"
   },
   "engines": {
