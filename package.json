@@ -1,11 +1,13 @@
 {
   "name": "bgone",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A Discord bot to remove backgrounds from images",
   "main": "app/bgone.js",
   "scripts": {
     "prestart": "mocha test/env.js",
-    "start": "nodemon --exec babel-node src/bgone.js"
+    "start": "npm run build && nodemon dist/bgone.js",
+    "serve": "npm run build && node dist/bgone.js",
+    "build": "babel src -d dist"
   },
   "repository": {
     "type": "git",
@@ -20,8 +22,8 @@
   "readmeFilename": "README.md",
   "license": "MIT License",
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
-    "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
     "nodemon": "^1.18.9"
   },
