@@ -5,15 +5,16 @@ import {
   removeBackgroundFromImageFile,
 } from 'remove.bg';
 
-export default function(data) {
-  const outputFile = `./src/data/out-${new Date().toJSON()}.png`;
-  const config = {
-    apiKey: process.env.KEY,
-    size: 'regular',
-    outputFile,
-  };
+export default data =>
+  new Promise((resolve, reject) => {
+    const outputFile = `./src/data/out-${new Date().toJSON()}.png`;
 
-  return new Promise((resolve, reject) => {
+    const config = {
+      apiKey: process.env.KEY,
+      size: 'regular',
+      outputFile,
+    };
+
     if (data.file) {
       removeBackgroundFromImageFile({ path: data.file, ...config })
         .then(() => resolve(outputFile))
@@ -24,4 +25,3 @@ export default function(data) {
         .catch(e => reject({ type: 'reply', msg: e[0].title }));
     }
   });
-}
