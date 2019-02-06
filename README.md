@@ -13,7 +13,7 @@ npm start
 ### Live
 
 ```
-pm2 start npm --name "bgone" -- serve
+pm2 start --name "bgone" npm -- run serve
 ```
 
 ---
