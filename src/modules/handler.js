@@ -28,13 +28,19 @@ export default function handle(msg) {
     return command
       .run()
       .then(embed => msg.channel.send({ embed }))
-      .catch(e => core.log.error(e));
+      .catch(e => {
+        core.log.error(e);
+        end(msg);
+      });
   }
 
   command
     .run(msg, cmd)
     .then(url => process(url).then(data => api(msg, data)))
-    .catch(e => core.log.error(e));
+    .catch(e => {
+      core.log.error(e);
+      end(msg);
+    });
 }
 
 function api(msg, data) {
@@ -60,12 +66,12 @@ function api(msg, data) {
     });
 }
 
-function end(msg, files) {
+function end(msg, files = []) {
   msg.channel.stopTyping();
   clean(files);
 }
 
-function clean(files) {
+function clean(files = []) {
   if (files.length) {
     core.log.warn(`cleaning ${files.length} files`);
 
