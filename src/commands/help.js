@@ -8,15 +8,17 @@ export default new Command({
   run: () =>
     new Promise(resolve => {
       let fields = commands.map(cmd => {
+        let name = `${cmd.name} :: ${cmd.describe}`;
+        let trigger = `\nTrigger :: ${cmd.trigger}`;
+
         return {
           name: `\u200B`,
           value:
             '```asciidoc\n' +
-            cmd.name +
-            ' :: ' +
-            cmd.describe +
-            '\nTrigger :: ' +
-            cmd.trigger +
+            name +
+            trigger +
+            '\nArgs :: ' +
+            cmd.args[0].describe +
             '\n```',
         };
       });
