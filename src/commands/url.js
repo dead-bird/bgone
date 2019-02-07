@@ -7,7 +7,6 @@ export default new Command({
   args: [
     {
       name: 'url',
-      required: true,
       describe: 'any valid image URL',
     },
   ],

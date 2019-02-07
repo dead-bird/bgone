@@ -7,7 +7,6 @@ export default new Command({
   args: [
     {
       name: '@user',
-      required: false,
       describe: 'Get avatar from tagged user',
     },
   ],
