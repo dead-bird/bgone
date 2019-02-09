@@ -3,8 +3,8 @@ import Command from '../modules/Command';
 export default new Command({
   name: 'Image',
   trigger: 'image',
-  describe:
-    'Get the image from a message. (tiggered by uploading an image with the message `bgone`).',
+  overwrite: '<image attachment>',
+  describe: 'Get an image from a message.',
   args: [],
 
   run: msg =>

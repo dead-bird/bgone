@@ -4,10 +4,10 @@ export default new Command({
   name: 'URL',
   trigger: /^(.*:\/\/)|(www)/,
   describe: 'Get an image from a URL.',
+  overwrite: '<url>',
   args: [
     {
       name: 'url',
-      required: true,
       describe: 'any valid image URL',
     },
   ],
