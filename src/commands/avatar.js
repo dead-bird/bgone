@@ -3,7 +3,7 @@ import Command from '../modules/Command';
 export default new Command({
   name: 'Avatar',
   trigger: 'avatar',
-  describe: 'Get an image from a user.',
+  describe: 'Get your own avatar.',
   args: [
     {
       name: '@user',
