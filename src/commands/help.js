@@ -30,9 +30,9 @@ export default new Command({
 
       resolve({
         author: {
+          url: core.attr.url,
           name: core.attr.plain,
-          url: 'https://www.remove.bg/',
-          icon_url: 'https://www.remove.bg/apple-touch-icon.png',
+          icon_url: core.attr.icon,
         },
 
         fields,
@@ -40,6 +40,7 @@ export default new Command({
     }),
 });
 
+// Weird function to keep all the help titles in line
 function space(word) {
   let space = '';
   let i = 8;
