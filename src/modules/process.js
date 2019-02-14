@@ -1,8 +1,8 @@
-import core from './core';
 import Jimp from 'jimp';
 
 export default function(url) {
   const file = `./src/data/in-${new Date().toJSON()}.png`;
+  const origin = 'jimp';
   const w = 625;
   const h = 400;
 
@@ -16,15 +16,9 @@ export default function(url) {
             .contain(w, h)
             .writeAsync(file)
             .then(() => resolve({ file }))
-            .catch(e => core.log.error(`[jimp] ${e}`));
-
-          // img.getBase64(Jimp.MIME_PNG, (err, image_file_b64) => {
-          //   if (err) reject(err);
-
-          //   resolve({ image_file_b64 });
-          // });
+            .catch(e => reject({ type: 'reply', msg: e.message, origin }));
         }
       })
-      .catch(e => core.log.error(`[jimp] ${e}`));
+      .catch(e => reject({ type: 'reply', msg: e.message, origin }));
   });
 }
