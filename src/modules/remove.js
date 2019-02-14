@@ -8,6 +8,7 @@ import {
 export default data =>
   new Promise((resolve, reject) => {
     const outputFile = `./src/data/out-${new Date().toJSON()}.png`;
+    const origin = 'remove.bg';
 
     const config = {
       apiKey: process.env.KEY,
@@ -18,10 +19,10 @@ export default data =>
     if (data.file) {
       removeBackgroundFromImageFile({ path: data.file, ...config })
         .then(() => resolve(outputFile))
-        .catch(e => reject({ type: 'reply', msg: e[0].title }));
+        .catch(e => reject({ type: 'reply', msg: e[0].title, origin }));
     } else {
       removeBackgroundFromImageUrl({ url: data.url, ...config })
         .then(() => resolve(outputFile))
-        .catch(e => reject({ type: 'reply', msg: e[0].title }));
+        .catch(e => reject({ type: 'reply', msg: e[0].title, origin }));
     }
   });
