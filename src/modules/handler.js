@@ -61,7 +61,7 @@ function end(msg, files = [], e = null) {
 
   if (e) {
     let err = e.msg || e;
-    let origin = e.origin ? `[${origin}] ` : '';
+    let origin = e.origin ? `[${e.origin}] ` : '';
 
     if (e.type === 'reply') msg.reply(err);
 
