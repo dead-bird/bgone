@@ -1,5 +1,5 @@
 import commands from '../commands';
-import process from './process';
+import { resize, eyes } from './process';
 import remove from './remove';
 import core from './core';
 import fs from 'fs';
@@ -36,7 +36,21 @@ export default function handle(msg) {
 
   command
     .run(msg, cmd)
-    .then(url => process(url).then(data => api(msg, data)))
+    .then(url => {
+      remove
+        .test()
+        .then(() =>
+          resize(url)
+            .then(data => api(msg, data))
+            .catch(e => end(msg, [], e))
+        )
+        .catch(() => {
+          end(msg, [], {
+            type: 'reply',
+            msg: `we've used all our API credits 😭`,
+          });
+        });
+    })
     .catch(e => end(msg, [], e));
 }
 
@@ -45,7 +59,8 @@ function api(msg, data) {
 
   if (data.file) files.push(data.file);
 
-  remove(data)
+  remove
+    .bg(data)
     .then(file => {
       msg.channel
         .send({ file })
