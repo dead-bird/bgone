@@ -1,5 +1,5 @@
-import commands from '../commands';
 import { resize, eyes } from './process';
+import commands from '../commands';
 import remove from './remove';
 import core from './core';
 import fs from 'fs';
