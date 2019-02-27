@@ -1,4 +1,4 @@
-import { resize, eyes } from './process';
+import process from './process';
 import commands from '../commands';
 import remove from './remove';
 import core from './core';
@@ -40,11 +40,12 @@ export default function handle(msg) {
       remove
         .test()
         .then(() =>
-          resize(url)
+          process
+            .resize(url)
             .then(data => api(msg, data))
             .catch(e => end(msg, [], e))
         )
-        .catch(() => {
+        .catch(e => {
           end(msg, [], {
             type: 'reply',
             msg: `we've used all our API credits 😭`,

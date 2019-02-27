@@ -22,7 +22,10 @@ export default new Command({
             resolve(attachment.url);
           }
 
-          reject(`Couldn't find any recent attachments 😭`);
+          reject({
+            type: 'reply',
+            msg: `Couldn't find any recent attachments 😭`,
+          });
         })
         .catch(e => core.log.error(e));
     }),
