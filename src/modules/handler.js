@@ -1,5 +1,5 @@
+import { resize, eyes } from './process';
 import commands from '../commands';
-import process from './process';
 import remove from './remove';
 import core from './core';
 import fs from 'fs';
@@ -31,19 +31,27 @@ export default function handle(msg) {
         msg.channel.send({ embed });
         end(msg);
       })
-      .catch(e => {
-        core.log.error(e);
-        end(msg);
-      });
+      .catch(e => end(msg, [], e));
   }
 
   command
     .run(msg, cmd)
-    .then(url => process(url).then(data => api(msg, data)))
-    .catch(e => {
-      core.log.error(e);
-      end(msg);
-    });
+    .then(url => {
+      remove
+        .test()
+        .then(() =>
+          resize(url)
+            .then(data => api(msg, data))
+            .catch(e => end(msg, [], e))
+        )
+        .catch(() => {
+          end(msg, [], {
+            type: 'reply',
+            msg: `we've used all our API credits 😭`,
+          });
+        });
+    })
+    .catch(e => end(msg, [], e));
 }
 
 function api(msg, data) {
@@ -51,27 +59,29 @@ function api(msg, data) {
 
   if (data.file) files.push(data.file);
 
-  remove(data)
+  remove
+    .bg(data)
     .then(file => {
       msg.channel
         .send({ file })
         .then(() => end(msg, [file, ...files]))
-        .catch(e => {
-          core.log.error(e);
-          end(msg, files);
-        });
+        .catch(e => end(msg, files, e));
     })
-    .catch(e => {
-      if (e.type === 'reply') msg.reply(e.msg);
-
-      core.log.error(e.msg);
-      end(msg, files);
-    });
+    .catch(e => end(msg, files, e));
 }
 
-function end(msg, files = []) {
+function end(msg, files = [], e = null) {
   msg.channel.stopTyping();
   clean(files);
+
+  if (e) {
+    let err = e.msg || e;
+    let origin = e.origin ? `[${e.origin}] ` : '';
+
+    if (e.type === 'reply') msg.reply(err);
+
+    core.log.error(origin + err);
+  }
 }
 
 function clean(files = []) {
@@ -80,6 +90,7 @@ function clean(files = []) {
 
     files.forEach(f => {
       core.log.warn(`cleaning ${f}`);
+
       fs.unlink(f, e => {
         if (e) core.log.error(e);
       });

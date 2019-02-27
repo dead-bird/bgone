@@ -6,6 +6,8 @@ export default {
   attr: {
     plain: 'Image backgrounds removed by remove.bg',
     raw: 'Image backgrounds removed by https://www.remove.bg',
+    icon: 'https://www.remove.bg/apple-touch-icon.png',
+    url: 'https://www.remove.bg/',
   },
 
   log: {

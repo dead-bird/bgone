@@ -1,30 +1,30 @@
-import core from './core';
 import Jimp from 'jimp';
 
-export default function(url) {
-  const file = `./src/data/in-${new Date().toJSON()}.png`;
-  const w = 625;
-  const h = 400;
+export default {
+  resize: url => {
+    const file = `./src/data/in-${new Date().toJSON()}.png`;
+    const origin = 'jimp';
+    const w = 625;
+    const h = 400;
 
-  return new Promise((resolve, reject) => {
-    Jimp.read(url)
-      .then(img => {
-        if (img.bitmap.width <= w && img.bitmap.height <= h) {
-          resolve({ url });
-        } else {
-          img
-            .contain(w, h)
-            .writeAsync(file)
-            .then(() => resolve({ file }))
-            .catch(e => core.log.error(`[jimp] ${e}`));
+    return new Promise((resolve, reject) => {
+      Jimp.read(url)
+        .then(img => {
+          if (img.bitmap.width <= w && img.bitmap.height <= h) {
+            resolve({ url });
+          } else {
+            img
+              .contain(w, h)
+              .writeAsync(file)
+              .then(() => resolve({ file }))
+              .catch(e => reject({ type: 'reply', msg: e.message, origin }));
+          }
+        })
+        .catch(e => reject({ type: 'reply', msg: e.message, origin }));
+    });
+  },
 
-          // img.getBase64(Jimp.MIME_PNG, (err, image_file_b64) => {
-          //   if (err) reject(err);
-
-          //   resolve({ image_file_b64 });
-          // });
-        }
-      })
-      .catch(e => core.log.error(`[jimp] ${e}`));
-  });
-}
+  eyes() {
+    console.log('💧 💧');
+  },
+};
