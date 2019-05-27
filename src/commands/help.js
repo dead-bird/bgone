@@ -1,13 +1,16 @@
 import Command from '../modules/Command';
 import core from '../modules/core';
 import commands from '../commands';
+import { account } from 'removd';
 
 export default new Command({
   name: 'Help',
   trigger: 'help',
   describe: 'Get some help.',
-  run: () =>
+  run: bot =>
     new Promise(resolve => {
+      account(bot);
+
       let fields = commands.map(cmd => {
         let name = cmd.name + space(cmd.name) + ':: ' + cmd.describe;
         let trigger = `\nTrigger :: bgone ${cmd.overwrite || cmd.trigger}`;

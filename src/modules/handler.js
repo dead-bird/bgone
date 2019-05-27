@@ -4,8 +4,9 @@ import remove from './remove';
 import core from './core';
 import fs from 'fs';
 
-export default function handle(msg) {
-  if (!msg.content.startsWith('bgone') || msg.author.bot || !msg.guild) return;
+export default function handle(msg, bot) {
+  if (!msg.content.startsWith('devbgone') || msg.author.bot || !msg.guild)
+    return;
 
   const args = msg.content
     .slice(5)
@@ -26,7 +27,7 @@ export default function handle(msg) {
 
   if (command.name === 'Help') {
     return command
-      .run()
+      .run(bot)
       .then(embed => {
         msg.channel.send({ embed });
         end(msg);
@@ -37,32 +38,24 @@ export default function handle(msg) {
   command
     .run(msg, cmd)
     .then(url => {
-      remove
-        .test()
-        .then(() =>
-          process
-            .resize(url)
-            .then(data => api(msg, data))
-            .catch(e => end(msg, [], e))
-        )
-        .catch(e => {
-          end(msg, [], {
-            type: 'reply',
-            msg: `we've used all our API credits 😭`,
-          });
-        });
+      process
+        .resize(url)
+        .then(data => api(msg, data, bot))
+        .catch(e => end(msg, [], e));
     })
     .catch(e => end(msg, [], e));
 }
 
-function api(msg, data) {
+function api(msg, data, bot) {
   let files = [];
 
   if (data.file) files.push(data.file);
 
   remove
     .bg(data)
-    .then(file => {
+    .then((file, item) => {
+      core.activity.reduce(item.charged);
+
       msg.channel
         .send({ file })
         .then(() => end(msg, [file, ...files]))

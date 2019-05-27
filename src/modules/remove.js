@@ -1,39 +1,36 @@
 import dotenv from 'dotenv/config';
 
-import {
-  removeBackgroundFromImageUrl,
-  removeBackgroundFromImageFile,
-} from 'remove.bg';
+import { file, url } from 'removd';
 
 export default {
   bg: data =>
     new Promise((resolve, reject) => {
-      const outputFile = `./src/data/out-${new Date().toJSON()}.png`;
+      const destination = `./src/data/out-${new Date().toJSON()}.png`;
       const origin = 'remove.bg';
 
       const config = {
-        apiKey: process.env.KEY,
+        apiKey: process.env.REMOVD_API_KEY,
         size: 'regular',
-        outputFile,
+        destination,
       };
 
       if (data.file) {
-        removeBackgroundFromImageFile({ path: data.file, ...config })
-          .then(() => resolve(outputFile))
-          .catch(e => reject({ type: 'reply', msg: e[0].title, origin }));
+        file({ source: data.file, ...config })
+          .then(item => resolve(destination, item))
+          .catch(e => reject({ type: 'reply', msg: e.error, origin }));
       } else {
-        removeBackgroundFromImageUrl({ url: data.url, ...config })
-          .then(() => resolve(outputFile))
-          .catch(e => reject({ type: 'reply', msg: e[0].title, origin }));
+        url({ source: data.url, ...config })
+          .then(item => resolve(destination, item))
+          .catch(e => reject({ type: 'reply', msg: e.error, origin }));
       }
     }),
 
-  test: () =>
-    new Promise((resolve, reject) => {
-      removeBackgroundFromImageUrl({ apiKey: process.env.KEY })
-        .then(() => resolve())
-        .catch(e => {
-          e[0].title === 'Insufficient credits' ? reject() : resolve();
-        });
-    }),
+  test: () => true,
+  // new Promise((resolve, reject) => {
+  //   removeBackgroundFromImageUrl({ apiKey: process.env.REMOVD_API_KEY })
+  //     .then(() => resolve())
+  //     .catch(e => {
+  //       e.error === 'Insufficient credits' ? reject() : resolve();
+  //     });
+  // }),
 };
