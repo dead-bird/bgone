@@ -1,24 +1,30 @@
+import dotenv from 'dotenv/config';
+import axios from 'axios';
 import core from './core';
-import { account } from 'removd';
 
-export default async (bot = null) => {
-  const acc = await account();
+export default (bot = null) => {
+  return new Promise(resolve => {
+    axios
+      .get('https://api.remove.bg/v1.0/account', {
+        headers: { 'X-API-Key': process.env.KEY },
+      })
+      .then(res => {
+        const info = res.data.data.attributes;
 
-  if (acc.error) {
-    const error = acc.error;
+        if (bot) {
+          core.activity.set(bot, info.api.free_calls);
+        }
 
-    core.log.error(error);
+        resolve(info);
+      })
+      .catch(error => {
+        core.log.error(error);
 
-    return {
-      credits: { total: 0, subscription: 0, payg: 0 },
-      api: { free_calls: 0, sizes: 'all' },
-      error,
-    };
-  }
-
-  if (bot) {
-    core.activity.set(bot, acc.api.free_calls);
-  }
-
-  return acc;
+        resolve({
+          credits: { total: 0, subscription: 0, payg: 0 },
+          api: { free_calls: 0, sizes: 'all' },
+          error,
+        });
+      });
+  });
 };
