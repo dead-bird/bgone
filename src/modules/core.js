@@ -16,6 +16,19 @@ const log = {
 };
 
 const activity = {
+  text: calls => {
+    let emote = '✨';
+
+    if (calls < 45) emote = '🤠';
+    if (calls < 25) emote = '😇';
+    if (calls < 15) emote = '😳';
+    if (calls < 10) emote = '👀';
+    if (calls < 5) emote = '😰';
+    if (calls === 0) emote = '😭';
+
+    return `${calls}/50 API calls remaining ${emote}`;
+  },
+
   reduce: (bot, amount) => {
     bot.calls = bot.calls - amount;
 
@@ -27,7 +40,7 @@ const activity = {
       bot.calls = calls;
     }
 
-    bot.user.setActivity(`${calls || bot.calls}/50 API calls remaining`, {
+    bot.user.setActivity(activity.text(calls || bot.calls), {
       type: 'Playing',
     });
   },

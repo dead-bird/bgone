@@ -9,8 +9,6 @@ export default new Command({
   describe: 'Get some help.',
   run: bot =>
     new Promise(resolve => {
-      account(bot);
-
       let fields = commands.map(cmd => {
         let name = cmd.name + space(cmd.name) + ':: ' + cmd.describe;
         let trigger = `\nTrigger :: bgone ${cmd.overwrite || cmd.trigger}`;
@@ -31,14 +29,19 @@ export default new Command({
         };
       });
 
-      resolve({
-        author: {
-          url: core.attr.url,
-          name: core.attr.plain,
-          icon_url: core.attr.icon,
-        },
-
-        fields,
+      account(bot).then(info => {
+        resolve({
+          fields,
+          footer: {
+            icon_url: bot.user.avatarURL,
+            text: core.activity.text(info.api.free_calls),
+          },
+          author: {
+            url: core.attr.url,
+            name: core.attr.plain,
+            icon_url: core.attr.icon,
+          },
+        });
       });
     }),
 });

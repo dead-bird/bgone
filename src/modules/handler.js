@@ -1,12 +1,11 @@
-import process from './process';
 import commands from '../commands';
+import process from './process';
 import remove from './remove';
 import core from './core';
 import fs from 'fs';
 
 export default function handle(msg, bot) {
-  if (!msg.content.startsWith('devbgone') || msg.author.bot || !msg.guild)
-    return;
+  if (!msg.content.startsWith('dgone') || msg.author.bot || !msg.guild) return;
 
   const args = msg.content
     .slice(5)
