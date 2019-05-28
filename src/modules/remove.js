@@ -1,39 +1,47 @@
 import dotenv from 'dotenv/config';
 
-import { file, url } from 'removd';
+import {
+  removeBackgroundFromImageUrl,
+  removeBackgroundFromImageFile,
+} from 'remove.bg';
 
 export default {
   bg: data =>
     new Promise((resolve, reject) => {
-      const destination = `./src/data/out-${new Date().toJSON()}.png`;
-      const config = { size: 'medium', destination };
+      const outputFile = `./src/data/out-${new Date().toJSON()}.png`;
       const origin = 'remove.bg';
 
+      const config = {
+        apiKey: process.env.KEY,
+        size: 'regular',
+        outputFile,
+      };
+
       if (data.file) {
-        file({ source: data.file, ...config })
+        removeBackgroundFromImageFile({ path: data.file, ...config })
           .then(item => {
-            if (item.error) throw item;
             console.log(item);
-            resolve(destination, item);
+
+            resolve(outputFile, item);
           })
-          .catch(e => reject({ type: 'reply', msg: e.error, origin }));
+          .catch(e => reject({ type: 'reply', msg: e[0].title, origin }));
       } else {
-        url({ source: data.url, ...config })
+        removeBackgroundFromImageUrl({ url: data.url, ...config })
           .then(item => {
-            if (item.error) throw item;
             console.log(item);
-            resolve(destination, item);
+
+            resolve(outputFile, item);
           })
-          .catch(e => reject({ type: 'reply', msg: e.error, origin }));
+          .catch(e => reject({ type: 'reply', msg: e[0].title, origin }));
       }
     }),
 
-  test: () => true,
-  // new Promise((resolve, reject) => {
-  //   removeBackgroundFromImageUrl({ apiKey: process.env.REMOVD_API_KEY })
-  //     .then(() => resolve())
-  //     .catch(e => {
-  //       e.error === 'Insufficient credits' ? reject() : resolve();
-  //     });
-  // }),
+  test: () =>
+    new Promise((resolve, reject) => {
+      removeBackgroundFromImageUrl({ apiKey: process.env.KEY })
+        .then(() => resolve())
+        .catch(e => {
+          e[0].title === 'Insufficient credits' ? reject() : resolve();
+        });
+    }),
 };
