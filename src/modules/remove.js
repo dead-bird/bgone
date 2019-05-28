@@ -20,7 +20,7 @@ export default {
       if (data.file) {
         removeBackgroundFromImageFile({ path: data.file, ...config })
           .then(item => {
-            console.log(item);
+            console.log(item.creditsCharged);
 
             resolve(outputFile, item);
           })
@@ -28,7 +28,7 @@ export default {
       } else {
         removeBackgroundFromImageUrl({ url: data.url, ...config })
           .then(item => {
-            console.log(item);
+            console.log(item.creditsCharged);
 
             resolve(outputFile, item);
           })

@@ -5,7 +5,7 @@ import core from './core';
 import fs from 'fs';
 
 export default function handle(msg, bot) {
-  if (!msg.content.startsWith('dgone') || msg.author.bot || !msg.guild) return;
+  if (!msg.content.startsWith('bgone') || msg.author.bot || !msg.guild) return;
 
   const args = msg.content
     .slice(5)
@@ -53,7 +53,7 @@ function api(msg, data, bot) {
   remove
     .bg(data)
     .then((file, item) => {
-      core.activity.reduce(item.charged);
+      // core.activity.reduce(item.creditsCharged);
 
       msg.channel
         .send({ file })
