@@ -13,6 +13,8 @@ export default async function handle(msg, bot) {
     .trim()
     .split(' ');
 
+  // If the message has an attachment, run `image`
+  // (let's us run `bgone` with no args and bypass the `recent` command)
   const cmd = msg.attachments.array().length
     ? 'image'
     : args.shift().toLowerCase();
@@ -39,6 +41,8 @@ export default async function handle(msg, bot) {
     }
   }
 
+  // The `help` cmd is the only cmd that doesn't return an
+  // `embed` so we handle it differently here
   if (command.name === 'Help') {
     return command
       .run(bot)
@@ -49,6 +53,7 @@ export default async function handle(msg, bot) {
       .catch(e => end(msg, [], e));
   }
 
+  // Run every other command
   command
     .run(msg, cmd)
     .then(url => {
