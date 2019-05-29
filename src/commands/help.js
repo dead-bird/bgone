@@ -7,6 +7,7 @@ export default new Command({
   name: 'Help',
   trigger: 'help',
   describe: 'Get some help.',
+  costs: false,
   run: bot =>
     new Promise(resolve => {
       let fields = commands.map(cmd => {
