@@ -52,8 +52,8 @@ function api(msg, data, bot) {
 
   remove
     .bg(data)
-    .then((file, item) => {
-      // core.activity.reduce(item.creditsCharged);
+    .then(file => {
+      core.activity.reduce(bot);
 
       msg.channel
         .send({ file })

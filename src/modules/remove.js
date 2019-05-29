@@ -19,19 +19,11 @@ export default {
 
       if (data.file) {
         removeBackgroundFromImageFile({ path: data.file, ...config })
-          .then(item => {
-            console.log(item.creditsCharged);
-
-            resolve(outputFile, item);
-          })
+          .then(() => resolve(outputFile))
           .catch(e => reject({ type: 'reply', msg: e[0].title, origin }));
       } else {
         removeBackgroundFromImageUrl({ url: data.url, ...config })
-          .then(item => {
-            console.log(item.creditsCharged);
-
-            resolve(outputFile, item);
-          })
+          .then(() => resolve(outputFile))
           .catch(e => reject({ type: 'reply', msg: e[0].title, origin }));
       }
     }),
