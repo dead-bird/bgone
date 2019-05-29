@@ -1,7 +1,7 @@
 import Command from '../modules/Command';
+import account from '../modules/account';
 import core from '../modules/core';
 import commands from '../commands';
-import { account } from 'removd';
 
 export default new Command({
   name: 'Help',
