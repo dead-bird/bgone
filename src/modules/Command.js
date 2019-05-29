@@ -1,6 +1,6 @@
 export default class Command {
   constructor(options) {
-    this.costs = options.costs || true;
+    this.costs = typeof options.costs == 'undefined' ? true : options.costs;
     this.overwrite = options.overwrite;
     this.describe = options.describe;
     this.trigger = options.trigger;
