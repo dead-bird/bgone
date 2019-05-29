@@ -1,10 +1,11 @@
+import account from '../modules/account';
 import commands from '../commands';
 import process from './process';
 import remove from './remove';
 import core from './core';
 import fs from 'fs';
 
-export default function handle(msg, bot) {
+export default async function handle(msg, bot) {
   if (!msg.content.startsWith('bgone') || msg.author.bot || !msg.guild) return;
 
   const args = msg.content
@@ -23,6 +24,20 @@ export default function handle(msg, bot) {
   if (!command) return;
 
   msg.channel.startTyping();
+
+  if (command.costs && bot.calls === 0) {
+    // Double check that `bot.calls` is accurate before denying the request
+    const info = await account(bot);
+
+    if (info.api.free_calls === 0) {
+      // Yup, we're out 😿
+
+      return end(msg, [], {
+        type: 'reply',
+        msg: `we've used all our API credits 😭`,
+      });
+    }
+  }
 
   if (command.name === 'Help') {
     return command
