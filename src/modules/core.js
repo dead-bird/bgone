@@ -35,12 +35,10 @@ const activity = {
     activity.set(bot);
   },
 
-  set: (bot, calls = null) => {
-    if (calls) {
-      bot.calls = calls;
-    }
+  set: (bot, calls = 0) => {
+    bot.calls = calls;
 
-    bot.user.setActivity(activity.text(calls || bot.calls), {
+    bot.user.setActivity(activity.text(bot.calls), {
       type: 'Playing',
     });
   },
