@@ -1,10 +1,11 @@
-import process from './process';
+import account from '../modules/account';
 import commands from '../commands';
+import process from './process';
 import remove from './remove';
 import core from './core';
 import fs from 'fs';
 
-export default function handle(msg) {
+export default async function handle(msg, bot) {
   if (!msg.content.startsWith('bgone') || msg.author.bot || !msg.guild) return;
 
   const args = msg.content
@@ -12,6 +13,8 @@ export default function handle(msg) {
     .trim()
     .split(' ');
 
+  // If the message has an attachment, run `image`
+  // (let's us run `bgone` with no args and bypass the `recent` command)
   const cmd = msg.attachments.array().length
     ? 'image'
     : args.shift().toLowerCase();
@@ -24,9 +27,25 @@ export default function handle(msg) {
 
   msg.channel.startTyping();
 
+  if (command.costs && bot.calls === 0) {
+    // Double check that `bot.calls` is accurate before denying the request
+    const info = await account(bot);
+
+    if (info.api.free_calls === 0) {
+      // Yup, we're out 😿
+
+      return end(msg, [], {
+        type: 'reply',
+        msg: `we've used all our API credits 😭`,
+      });
+    }
+  }
+
+  // The `help` cmd is the only cmd that doesn't return an
+  // `embed` so we handle it differently here
   if (command.name === 'Help') {
     return command
-      .run()
+      .run(bot)
       .then(embed => {
         msg.channel.send({ embed });
         end(msg);
@@ -34,28 +53,19 @@ export default function handle(msg) {
       .catch(e => end(msg, [], e));
   }
 
+  // Run every other command
   command
     .run(msg, cmd)
     .then(url => {
-      remove
-        .test()
-        .then(() =>
-          process
-            .resize(url)
-            .then(data => api(msg, data))
-            .catch(e => end(msg, [], e))
-        )
-        .catch(e => {
-          end(msg, [], {
-            type: 'reply',
-            msg: `we've used all our API credits 😭`,
-          });
-        });
+      process
+        .resize(url)
+        .then(data => api(msg, data, bot))
+        .catch(e => end(msg, [], e));
     })
     .catch(e => end(msg, [], e));
 }
 
-function api(msg, data) {
+function api(msg, data, bot) {
   let files = [];
 
   if (data.file) files.push(data.file);
@@ -63,6 +73,8 @@ function api(msg, data) {
   remove
     .bg(data)
     .then(file => {
+      core.activity.reduce(bot);
+
       msg.channel
         .send({ file })
         .then(() => end(msg, [file, ...files]))

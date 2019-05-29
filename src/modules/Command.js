@@ -1,5 +1,6 @@
 export default class Command {
   constructor(options) {
+    this.costs = options.costs || true;
     this.overwrite = options.overwrite;
     this.describe = options.describe;
     this.trigger = options.trigger;
