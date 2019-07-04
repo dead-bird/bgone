@@ -29,11 +29,7 @@ const activity = {
     return `${calls}/50 API calls remaining ${emote}`;
   },
 
-  reduce: (bot, amount = 1) => {
-    bot.calls = bot.calls - amount;
-
-    activity.set(bot);
-  },
+  reduce: (bot, amount = 1) => activity.set(bot, bot.calls - amount),
 
   set: (bot, calls = 0) => {
     bot.calls = calls;
