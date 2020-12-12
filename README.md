@@ -55,7 +55,7 @@ url     :: any valid image URL
 
 ```bash
 # dev
-npm start
+npm run dev
 ```
 
 ```bash
