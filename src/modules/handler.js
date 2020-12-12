@@ -8,10 +8,7 @@ import fs from 'fs';
 export default async function handle(msg, bot) {
   if (!msg.content.startsWith('bgone') || msg.author.bot || !msg.guild) return;
 
-  const args = msg.content
-    .slice(5)
-    .trim()
-    .split(' ');
+  const args = msg.content.slice(5).trim().split(' ');
 
   // If the message has an attachment, run `image`
   // (let's us run `bgone` with no args and bypass the `recent` command)
