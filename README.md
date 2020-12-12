@@ -47,7 +47,6 @@ url     :: any valid image URL
 
 - All images are auto resized to be within 625×400
 - The bot is limited to a maximum of 50 API calls per month
-- Only images of people are successfully removed
 
 ---
 
